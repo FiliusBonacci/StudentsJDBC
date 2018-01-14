@@ -94,14 +94,14 @@ public class StudentManagerTest {
 		
 		int studentListCount = studentManager.getAllStudents().size();
 		Student retrievedStudent = studentManager.getAllStudents().get(studentListCount - 1);
-		retrievedStudent.setId(ID2);
+//		retrievedStudent.setId(ID2);
 		retrievedStudent.setFirstName(NAME_2);
 		retrievedStudent.setDateOfBirth(BIRTHDAY_2);
 		
 		studentManager.updateStudent(retrievedStudent);
 		Student updatedStudent = studentManager.getAllStudents().get(studentListCount - 1);
 		
-		assertEquals(updatedStudent.getId(), ID2);
+//		assertEquals(updatedStudent.getId(), ID2);
 		assertEquals(updatedStudent.getFirstName(), NAME_2);
 		assertEquals(updatedStudent.getDateOfBirth(), BIRTHDAY_2);
 		
@@ -138,7 +138,6 @@ public class StudentManagerTest {
 		studentManager.addGrade(grade);
 		int retrievedGrade = studentManager.getAllGrades().size();
 		assertEquals(1, retrievedGrade);
-//		assertEquals(APPROVED1, retrievedGrade.getApproved());
 
 	}
 	
