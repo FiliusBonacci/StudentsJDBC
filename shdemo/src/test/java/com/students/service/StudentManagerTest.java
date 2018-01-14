@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.students.domain.StudentIndex;
 import com.students.domain.Student;
 import com.students.domain.Grade;
 import com.students.service.StudentManager;
@@ -41,7 +40,8 @@ public class StudentManagerTest {
 	private final long ID1 = 100;
 	String date1 = "January 2, 1980";
 	private final LocalDate BIRTHDAY1 = LocalDate.parse(date1, formatter);
-	private final Date BIRTHDAY_1 = new Date(1980, 1, 14);
+	@SuppressWarnings("deprecation")
+	private final Date BIRTHDAY_1 = new Date(1,1,1988);
 
 	private final Long ID2 = Long.valueOf(200);
 	private final String NAME_2 = "Student2";
@@ -69,9 +69,8 @@ public class StudentManagerTest {
 		Student student = new Student();
 		student.setFirstName(NAME1);
 		student.setId(ID1);
-		student.setDateOfBirth((java.sql.Date) BIRTHDAY_1);
+		student.setDateOfBirth(BIRTHDAY_1);
 
-		// id is Unique
 		studentManager.addStudent(student);
 
 		Student retrievedStudent = studentManager.findStudentById(ID1);
@@ -82,6 +81,7 @@ public class StudentManagerTest {
 
 	@Test
 	public void getAllStudentsTest() {
+		studentManager.removeAllStudents();
 		int numberOfStudents = studentManager.getAllStudents().size();
 		assertThat(numberOfStudents, either(is(0)).or(is(1)));
 	}
@@ -121,39 +121,28 @@ public class StudentManagerTest {
 		studentManager.removeStudent(student);
 		int studentCounterAfterRemoval = studentManager.getAllStudents().size();
 		
-		assertEquals(studentCounterAfterRemoval - 1, studentCounter);
+		assertEquals(studentCounterAfterRemoval, studentCounter - 1);
 	}
 
 	
-	@SuppressWarnings("deprecation")
 	@Test
 	public void addGradeTest() {
-
+		
+		studentManager.removeAllGrades();
 		Grade grade = new Grade();
-		grade.setId(ID1);
+//		grade.setId(ID1);
 		grade.setValue(GRADE1);
 		grade.setApproved(APPROVED1);
 
-		Grade retrievedGrade = studentManager.findGradeById(ID1);
-		assertEquals(GRADE1, retrievedGrade.getValue());
-		assertEquals(APPROVED1, retrievedGrade.getApproved());
+		studentManager.addGrade(grade);
+		int retrievedGrade = studentManager.getAllGrades().size();
+		assertEquals(1, retrievedGrade);
+//		assertEquals(APPROVED1, retrievedGrade.getApproved());
 
 	}
 	
 	
-	@Test
-	public void addStudentIndex() {
-		StudentIndex studentIndex = new StudentIndex();
-		studentIndex.setStudent(new Student(ID1, NAME1, BIRTHDAY_1));
-		studentIndex.setGrade(new Grade(Long.valueOf(1), GRADE1, APPROVED1));
-		
-		studentManager.addStudentIndex(studentIndex);
-//		long id = studentIndex.getId();
-//		StudentIndex retrievedStudentIndex = studentManager.findById(id);
-//		
-//		assertEquals(retrievedStudentIndex, studentIndex);
-//		studentManager.removeStudentIndex(retrievedStudentIndex);
-	}
+
 
 
 	

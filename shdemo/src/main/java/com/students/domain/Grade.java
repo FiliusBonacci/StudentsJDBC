@@ -11,7 +11,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity
-@NamedQueries( @NamedQuery(name = "grade.all", query = "Select g from Grade g"))
+@NamedQueries({
+	@NamedQuery(name = "grade.all", query = "Select g from Grade g"),
+	@NamedQuery(name = "grade.removeAll", query = "Delete from Grade g")
+	})
 
 
 public class Grade {

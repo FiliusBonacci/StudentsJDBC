@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.students.domain.StudentIndex;
 import com.students.domain.Grade;
 import com.students.domain.Student;
 
@@ -46,7 +45,7 @@ public class StudentManagerImpl implements StudentManager {
 	
 	@Override
 	public void removeAllStudents() {
-		sessionFactory.getCurrentSession().getNamedQuery("student.removeAll");
+		sessionFactory.getCurrentSession().getNamedQuery("student.removeAll").executeUpdate();
 	}
 
 	@Override
@@ -90,9 +89,16 @@ public class StudentManagerImpl implements StudentManager {
 	}
 
 	@Override
-	public void addStudentIndex(StudentIndex studentIndex) {
-		sessionFactory.getCurrentSession().persist(studentIndex);
+	public Grade findGradeByValue(float value) {
+		return (Grade) sessionFactory.getCurrentSession().get(Grade.class, value);
 	}
+
+	@Override
+	public void removeAllGrades() {
+		sessionFactory.getCurrentSession().getNamedQuery("grade.removeAll").executeUpdate();	
+	}
+
+	
 
 	
 

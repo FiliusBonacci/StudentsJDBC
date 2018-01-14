@@ -1,8 +1,6 @@
 package com.students.service;
 
 import java.util.List;
-
-import com.students.domain.StudentIndex;
 import com.students.domain.Student;
 import com.students.domain.Grade;
 
@@ -21,11 +19,11 @@ public interface StudentManager {
 	void addGrade(Grade grade);
 	void updateGrade(Grade grade);
 	void removeGrade(Grade grade);
+	void removeAllGrades();
 
 	Grade findGradeById(Long id);
 	List<Grade> getAllGrades();
-	
-	void addStudentIndex(StudentIndex studentIndex);
+	Grade findGradeByValue(float value);
 	
 	
 
