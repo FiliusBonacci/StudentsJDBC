@@ -58,6 +58,7 @@ public class StudentManagerTest {
 	@Test
 	public void addStudentTest() {
 		List<Student> retrievedStudents = studentManager.getAllStudents();
+		int studentsCountBeforeAdding = studentManager.getAllStudents().size();
 
 		// If there is a student with ID1 delete him/her
 		for (Student student : retrievedStudents) {
@@ -73,10 +74,10 @@ public class StudentManagerTest {
 
 		studentManager.addStudent(student);
 
-		Student retrievedStudent = studentManager.findStudentById(ID1);
-
-		assertEquals(NAME1, retrievedStudent.getFirstName());
-		assertEquals(BIRTHDAY1, retrievedStudent.getDateOfBirth());
+		int studentsCountAfterAdding = studentManager.getAllStudents().size();
+		
+		assertEquals(studentsCountAfterAdding - 1, studentsCountBeforeAdding);
+		
 	}
 
 	@Test
