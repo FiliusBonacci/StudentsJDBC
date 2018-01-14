@@ -8,10 +8,11 @@ import static org.junit.Assert.assertThat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.hibernate.hql.ast.SqlASTFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -84,6 +85,76 @@ public class StudentManagerTest {
 		int numberOfStudents = studentManager.getAllStudents().size();
 		assertThat(numberOfStudents, either(is(0)).or(is(1)));
 	}
+
+	@Test
+	public void updateStudentTest() {
+		Student s1 = new Student(ID1, NAME1, BIRTHDAY_1);
+		studentManager.addStudent(s1);
+		
+		int studentListCount = studentManager.getAllStudents().size();
+		Student retrievedStudent = studentManager.getAllStudents().get(studentListCount - 1);
+		retrievedStudent.setId(ID2);
+		retrievedStudent.setFirstName(NAME_2);
+		retrievedStudent.setDateOfBirth(BIRTHDAY_2);
+		
+		studentManager.updateStudent(retrievedStudent);
+		Student updatedStudent = studentManager.getAllStudents().get(studentListCount - 1);
+		
+		assertEquals(updatedStudent.getId(), ID2);
+		assertEquals(updatedStudent.getFirstName(), NAME_2);
+		assertEquals(updatedStudent.getDateOfBirth(), BIRTHDAY_2);
+		
+		studentManager.removeStudent(updatedStudent);
+	}
+
+	@Test
+	public void removeStudentTest() {
+		// clear out studens table
+		studentManager.removeAllStudents();
+		
+		// add student
+		Student student = new Student(ID1, NAME1, BIRTHDAY_1);
+		studentManager.addStudent(student);
+
+		int studentCounter = studentManager.getAllStudents().size(); // should be 1
+		
+		studentManager.removeStudent(student);
+		int studentCounterAfterRemoval = studentManager.getAllStudents().size();
+		
+		assertEquals(studentCounterAfterRemoval - 1, studentCounter);
+	}
+
+	
+	@SuppressWarnings("deprecation")
+	@Test
+	public void addGradeTest() {
+
+		Grade grade = new Grade();
+		grade.setId(ID1);
+		grade.setValue(GRADE1);
+		grade.setApproved(APPROVED1);
+
+		Grade retrievedGrade = studentManager.findGradeById(ID1);
+		assertEquals(GRADE1, retrievedGrade.getValue());
+		assertEquals(APPROVED1, retrievedGrade.getApproved());
+
+	}
+	
+	
+	@Test
+	public void addStudentIndex() {
+		StudentIndex studentIndex = new StudentIndex();
+		studentIndex.setStudent(new Student(ID1, NAME1, BIRTHDAY_1));
+		studentIndex.setGrade(new Grade(Long.valueOf(1), GRADE1, APPROVED1));
+		
+		studentManager.addStudentIndex(studentIndex);
+//		long id = studentIndex.getId();
+//		StudentIndex retrievedStudentIndex = studentManager.findById(id);
+//		
+//		assertEquals(retrievedStudentIndex, studentIndex);
+//		studentManager.removeStudentIndex(retrievedStudentIndex);
+	}
+
 
 	
 

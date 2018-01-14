@@ -16,8 +16,11 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "student.all", query = "Select s from Student s"),
-		@NamedQuery(name = "student.byId", query = "Select s from Student s where s.id = :id") })
+@NamedQueries({ 
+	@NamedQuery(name = "student.all", query = "Select s from Student s"),
+	@NamedQuery(name = "student.byId", query = "Select s from Student s where s.id = :id"),
+	@NamedQuery(name = "student.removeAll", query = "Delete from Student s")	
+	})
 
 public class Student {
 
@@ -32,6 +35,13 @@ public class Student {
 		super();
 	}
 
+	public Student(Long id, String firstName, Date dateOfBirth) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.dateOfBirth = dateOfBirth;
+	}
+	
 	public Student(Long id, String firstName, Date dateOfBirth, List<Grade> grades) {
 		super();
 		this.id = id;
@@ -50,13 +60,6 @@ public class Student {
 		this.id = id;
 	}
 
-	public String getFirstname() {
-		return firstName;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstName = firstname;
-	}
 
 	public String getFirstName() {
 		return firstName;

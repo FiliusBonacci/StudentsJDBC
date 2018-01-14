@@ -12,6 +12,7 @@ public interface StudentManager {
 	void addStudent(Student student);
 	void updateStudent(Student student);
 	void removeStudent(Student student);
+	void removeAllStudents();
 	
 	Student findStudentById(Long id);
 	List<Student> getAllStudents();
@@ -23,6 +24,8 @@ public interface StudentManager {
 
 	Grade findGradeById(Long id);
 	List<Grade> getAllGrades();
+	
+	void addStudentIndex(StudentIndex studentIndex);
 	
 	
 

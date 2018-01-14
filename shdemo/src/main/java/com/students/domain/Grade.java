@@ -18,8 +18,18 @@ public class Grade {
     private Long id;
     private float value;
     private boolean approved;
+    
+    
+    public Grade() {}
 
-    @Id
+    public Grade(Long id, float value, boolean approved) {
+		super();
+		this.id = id;
+		this.value = value;
+		this.approved = approved;
+	}
+
+	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;

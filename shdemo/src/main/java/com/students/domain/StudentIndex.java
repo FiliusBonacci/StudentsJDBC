@@ -18,8 +18,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "studentindex.all", query = "SELECT s FROM StudentIndex s"),
-		@NamedQuery(name = "footballTeam.byName", query = "SELECT f FROM FootballTeam f WHERE f.name = :name") })
+@NamedQueries({ 
+	@NamedQuery(name = "studentIndex.all", query = "SELECT s FROM StudentIndex s"),
+	@NamedQuery(name = "studentIndex.byName", query = "SELECT s FROM StudentIndex s WHERE s.name = :name") 
+})
 
 
 public class StudentIndex {
@@ -42,9 +44,6 @@ public class StudentIndex {
 	}
 
 
-
-
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
@@ -56,7 +55,7 @@ public class StudentIndex {
 	}
 
 	
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	public Grade getGrade() {
 		return grade;
 	}
@@ -65,7 +64,7 @@ public class StudentIndex {
 		this.grade = grade;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	public Student getStudent() {
 		return student;
 	}

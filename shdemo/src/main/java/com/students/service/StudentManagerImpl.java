@@ -43,6 +43,11 @@ public class StudentManagerImpl implements StudentManager {
 		sessionFactory.getCurrentSession().delete(student);
 
 	}
+	
+	@Override
+	public void removeAllStudents() {
+		sessionFactory.getCurrentSession().getNamedQuery("student.removeAll");
+	}
 
 	@Override
 	public Student findStudentById(Long id) {
@@ -83,6 +88,13 @@ public class StudentManagerImpl implements StudentManager {
 	public List<Grade> getAllGrades() {
 		return sessionFactory.getCurrentSession().getNamedQuery("grade.all").list();
 	}
+
+	@Override
+	public void addStudentIndex(StudentIndex studentIndex) {
+		sessionFactory.getCurrentSession().persist(studentIndex);
+	}
+
+	
 
 
 
